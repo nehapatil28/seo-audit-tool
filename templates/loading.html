@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SEOBit — Running Audit…</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --white: #ffffff;
+  --off-white: #f8f7f4;
+  --light: #f1f0ec;
+  --border: #e8e6e0;
+  --text: #1a1916;
+  --text-2: #3d3b35;
+  --text-3: #7a7870;
+  --orange: #f06400;
+  --orange-light: #fff3eb;
+  --orange-dark: #c44e00;
+  --green: #16a34a;
+  --red: #dc2626;
+  --amber: #d97706;
+  --blue: #1d6bd8;
+  --purple: #7c3aed;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--off-white);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  background: var(--orange);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-mark svg { width: 18px; height: 18px; }
+
+.logo-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.logo-text span { color: var(--orange); }
+
+.audit-target {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  color: var(--text-3);
+  max-width: 340px;
+  overflow: hidden;
+}
+
+.audit-target-url {
+  font-weight: 500;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cancel-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  color: var(--text-3);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ── MAIN LOADING AREA ── */
+.loading-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+}
+
+/* Background radial glow */
+.loading-main::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(240,100,0,0.07) 0%, transparent 65%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.loading-layout {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1080px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── LEFT: STEPS ── */
+.steps-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.steps-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 6px;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: var(--orange-light);
+  transition: width 0.6s ease;
+  z-index: 0;
+}
+
+.step-item.active::before { width: 100%; }
+.step-item.done { border-color: rgba(22,163,74,0.25); background: rgba(240,253,244,0.6); }
+
+.step-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s;
+}
+
+.step-item.active .step-icon-wrap {
+  background: var(--orange);
+}
+
+.step-item.done .step-icon-wrap {
+  background: rgba(22,163,74,0.12);
+}
+
+.step-info { flex: 1; position: relative; z-index: 1; }
+
+.step-name {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+  transition: color 0.3s;
+}
+
+.step-item.active .step-name { color: var(--orange-dark); }
+
+.step-detail {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  line-height: 1.4;
+}
+
+.step-status {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.3s;
+}
+
+.step-item.active .status-dot {
+  background: var(--orange);
+  box-shadow: 0 0 0 3px rgba(240,100,0,0.2);
+  animation: pulse-ring 1.5s infinite;
+}
+
+.step-item.done .status-dot {
+  background: var(--green);
+  box-shadow: none;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(240,100,0,0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(240,100,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(240,100,0,0); }
+}
+
+/* Step icons spinning when active */
+.step-item.active .step-icon-wrap .step-emoji {
+  animation: spin-once 0.5s ease;
+}
+
+@keyframes spin-once {
+  from { transform: rotate(-20deg) scale(0.8); }
+  to { transform: rotate(0deg) scale(1); }
+}
+
+/* ── CENTER: CIRCULAR PROGRESS ── */
+.progress-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.ring-wrap {
+  position: relative;
+  width: 220px;
+  height: 220px;
+}
+
+.ring-svg {
+  width: 220px;
+  height: 220px;
+  transform: rotate(-90deg);
+}
+
+.ring-track {
+  fill: none;
+  stroke: var(--light);
+  stroke-width: 10;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 565.5; /* 2 * π * 90 */
+  stroke-dashoffset: 565.5;
+  transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 8px rgba(240,100,0,0.4));
+}
+
+.ring-progress.complete {
+  stroke: var(--green);
+  filter: drop-shadow(0 0 8px rgba(22,163,74,0.4));
+}
+
+/* Spinning secondary ring */
+.ring-spin {
+  fill: none;
+  stroke: rgba(240,100,0,0.12);
+  stroke-width: 2;
+  stroke-dasharray: 20 565;
+  animation: ring-rotate 3s linear infinite;
+}
+
+@keyframes ring-rotate {
+  from { transform-origin: 110px 110px; transform: rotate(0deg); }
+  to { transform-origin: 110px 110px; transform: rotate(360deg); }
+}
+
+.ring-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.pct-num {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  transition: color 0.5s;
+}
+
+.pct-num.complete { color: var(--green); }
+
+.pct-label {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.progress-status {
+  text-align: center;
+}
+
+.status-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  min-height: 1.4em;
+}
+
+.status-sub {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  min-height: 1.3em;
+}
+
+/* Bottom linear bar */
+.linear-bar-wrap {
+  width: 220px;
+}
+
+.linear-bar-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-3);
+  margin-bottom: 7px;
+  font-weight: 500;
+}
+
+.linear-bar-bg {
+  width: 100%;
+  height: 5px;
+  background: var(--light);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.linear-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--orange), #ff9445);
+  border-radius: 100px;
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.linear-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  animation: shimmer 1.8s infinite;
+}
+
+@keyframes shimmer {
+  from { left: -60%; }
+  to { left: 110%; }
+}
+
+.linear-bar-fill.complete {
+  background: linear-gradient(90deg, var(--green), #22c55e);
+}
+
+/* Est time */
+.est-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: var(--text-3);
+  margin-top: 8px;
+  justify-content: center;
+}
+
+/* ── RIGHT: LIVE METRICS ── */
+.metrics-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metrics-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 6px;
+}
+
+.metric-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.3s;
+}
+
+.metric-card.highlight {
+  border-color: rgba(240,100,0,0.2);
+  background: var(--orange-light);
+}
+
+.metric-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.metric-body { flex: 1; }
+
+.metric-label {
+  font-size: 0.7rem;
+  color: var(--text-3);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.metric-val {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 40px;
+}
+
+.metric-val.counting { color: var(--orange); }
+
+.metric-bar-mini {
+  width: 60px;
+  height: 4px;
+  background: var(--light);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.metric-bar-mini-fill {
+  height: 100%;
+  background: var(--orange);
+  border-radius: 100px;
+  width: 0%;
+  transition: width 0.8s ease;
+}
+
+/* ── BOTTOM BAR ── */
+.bottom-bar {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.bottom-tip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--text-3);
+}
+
+.tip-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--orange-light);
+  color: var(--orange-dark);
+  border: 1px solid rgba(240,100,0,0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.checks-done {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.checks-done span { color: var(--orange); }
+
+/* ── COMPLETE OVERLAY ── */
+.complete-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(248,247,244,0.95);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fade-in 0.4s ease;
+}
+
+.complete-overlay.show { display: flex; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.complete-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 52px 60px;
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.1);
+  animation: pop-up 0.5s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes pop-up {
+  from { opacity: 0; transform: scale(0.85) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.complete-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(22,163,74,0.1);
+  border: 2px solid rgba(22,163,74,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 2rem;
+}
+
+.complete-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.complete-sub {
+  font-size: 0.9rem;
+  color: var(--text-3);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.complete-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.c-stat {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.c-stat-num {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--orange);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.c-stat-lbl {
+  font-size: 0.65rem;
+  color: var(--text-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn-view-results {
+  width: 100%;
+  background: var(--orange);
+  border: none;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  letter-spacing: -0.2px;
+}
+
+.btn-view-results:hover {
+  background: var(--orange-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(240,100,0,0.3);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .loading-layout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 32px;
+  }
+  .steps-panel, .metrics-panel {
+    width: 100%;
+    max-width: 420px;
+  }
+  .top-bar { padding: 14px 20px; }
+  .audit-target { display: none; }
+  .bottom-bar { padding: 12px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="top-bar">
+  <a href="/" class="logo-wrap">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+    </div>
+    <span class="logo-text">SEO<span>Bit</span></span>
+  </a>
+
+  <div class="audit-target">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </svg>
+    Auditing: <span class="audit-target-url" id="audit-url-display">—</span>
+  </div>
+
+  <button class="cancel-btn" onclick="cancelAudit()">✕ Cancel</button>
+</div>
+
+<!-- ── MAIN AREA ── -->
+<div class="loading-main">
+  <div class="loading-layout">
+
+    <!-- LEFT: Steps -->
+    <div class="steps-panel">
+      <div class="steps-title">Audit Progress</div>
+
+      <div class="step-item" id="step-0">
+        <div class="step-icon-wrap"><span class="step-emoji">🌐</span></div>
+        <div class="step-info">
+          <div class="step-name">Fetching Page</div>
+          <div class="step-detail">Resolving DNS, loading HTML response</div>
+        </div>
+        <div class="step-status"><div class="status-dot"></div></div>
+      </div>
+
+      <div class="step-item" id="step-1">
+        <div class="step-icon-wrap"><span class="step-emoji">📄</span></div>
+        <div class="step-info">
+          <div class="step-name">On-Page SEO</div>
+          <div class="step-detail">Titles, meta tags, headings, keywords</div>
+        </div>
+        <div class="step-status"><div class="status-dot"></div></div>
+      </div>
+
+      <div class="step-item" id="step-2">
+        <div class="step-icon-wrap"><span class="step-emoji">⚙️</span></div>
+        <div class="step-info">
+          <div class="step-name">Technical SEO</div>
+          <div class="step-detail">Robots.txt, canonicals, HTTPS, schema</div>
+        </div>
+        <div class="step-status"><div class="status-dot"></div></div>
+      </div>
+
+      <div class="step-item" id="step-3">
+        <div class="step-icon-wrap"><span class="step-emoji">🔗</span></div>
+        <div class="step-info">
+          <div class="step-name">Link Audit</div>
+          <div class="step-detail">Crawling internal & external links</div>
+        </div>
+        <div class="step-status"><div class="status-dot"></div></div>
+      </div>
+
+      <div class="step-item" id="step-4">
+        <div class="step-icon-wrap"><span class="step-emoji">🖼️</span></div>
+        <div class="step-info">
+          <div class="step-name">Image Analysis</div>
+          <div class="step-detail">Alt tags, file sizes, lazy loading</div>
+        </div>
+        <div class="step-status"><div class="status-dot"></div></div>
+      </div>
+
+      <div class="step-item" id="step-5">
+        <div class="step-icon-wrap"><span class="step-emoji">⚡</span></div>
+        <div class="step-info">
+          <div class="step-name">PageSpeed & CWV</div>
+          <div class="step-detail">LCP, CLS, FID via Google API</div>
+        </div>
+        <div class="step-status"><div class="status-dot"></div></div>
+      </div>
+
+      <div class="step-item" id="step-6">
+        <div class="step-icon-wrap"><span class="step-emoji">🗺️</span></div>
+        <div class="step-info">
+          <div class="step-name">Sitemap & Reports</div>
+          <div class="step-detail">Validating XML sitemap, scoring</div>
+        </div>
+        <div class="step-status"><div class="status-dot"></div></div>
+      </div>
+    </div>
+
+    <!-- CENTER: Ring progress -->
+    <div class="progress-center">
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 220 220">
+          <!-- Track -->
+          <circle class="ring-track" cx="110" cy="110" r="90"/>
+          <!-- Spinning decoration -->
+          <circle class="ring-spin" cx="110" cy="110" r="90"/>
+          <!-- Progress -->
+          <circle class="ring-progress" id="ring-progress" cx="110" cy="110" r="90"/>
+        </svg>
+        <div class="ring-inner">
+          <div class="pct-num" id="pct-num">0</div>
+          <div class="pct-label">% Complete</div>
+        </div>
+      </div>
+
+      <div class="progress-status">
+        <div class="status-text" id="status-text">Initializing audit…</div>
+        <div class="status-sub" id="status-sub">Connecting to SEOBit engine</div>
+      </div>
+
+      <div class="linear-bar-wrap">
+        <div class="linear-bar-meta">
+          <span id="bar-label">Starting up</span>
+          <span id="est-label">Est. ~30s</span>
+        </div>
+        <div class="linear-bar-bg">
+          <div class="linear-bar-fill" id="linear-fill"></div>
+        </div>
+        <div class="est-time">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+          </svg>
+          Elapsed: <span id="elapsed-time">0s</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Live metrics -->
+    <div class="metrics-panel">
+      <div class="metrics-title">Live Metrics</div>
+
+      <div class="metric-card" id="mc-score">
+        <div class="metric-icon">🎯</div>
+        <div class="metric-body">
+          <div class="metric-label">SEO Score</div>
+          <div class="metric-val counting" id="mv-score">—</div>
+          <div class="metric-bar-mini"><div class="metric-bar-mini-fill" id="mb-score"></div></div>
+        </div>
+      </div>
+
+      <div class="metric-card" id="mc-links">
+        <div class="metric-icon">🔗</div>
+        <div class="metric-body">
+          <div class="metric-label">Links Found</div>
+          <div class="metric-val counting" id="mv-links">0</div>
+        </div>
+      </div>
+
+      <div class="metric-card" id="mc-issues">
+        <div class="metric-icon">⚠️</div>
+        <div class="metric-body">
+          <div class="metric-label">Issues Detected</div>
+          <div class="metric-val counting" id="mv-issues">0</div>
+        </div>
+      </div>
+
+      <div class="metric-card" id="mc-speed">
+        <div class="metric-icon">⚡</div>
+        <div class="metric-body">
+          <div class="metric-label">PageSpeed Score</div>
+          <div class="metric-val counting" id="mv-speed">—</div>
+          <div class="metric-bar-mini"><div class="metric-bar-mini-fill" id="mb-speed"></div></div>
+        </div>
+      </div>
+
+      <div class="metric-card" id="mc-images">
+        <div class="metric-icon">🖼️</div>
+        <div class="metric-body">
+          <div class="metric-label">Images Scanned</div>
+          <div class="metric-val counting" id="mv-images">0</div>
+        </div>
+      </div>
+
+      <div class="metric-card" id="mc-checks">
+        <div class="metric-icon">✅</div>
+        <div class="metric-body">
+          <div class="metric-label">Checks Passed</div>
+          <div class="metric-val counting" id="mv-checks">0</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── BOTTOM BAR ── -->
+<div class="bottom-bar">
+  <div class="bottom-tip">
+    <span class="tip-badge">Tip</span>
+    <span id="tip-text">Fix broken links first — they directly impact crawl budget and user experience.</span>
+  </div>
+  <div class="checks-done">
+    <span id="checks-count">0</span> / 100+ checks
+  </div>
+</div>
+
+<!-- ── COMPLETE OVERLAY ── -->
+<div class="complete-overlay" id="complete-overlay">
+  <div class="complete-card">
+    <div class="complete-icon">✅</div>
+    <div class="complete-title">Audit Complete!</div>
+    <div class="complete-sub">Your full SEO report is ready. We found <strong id="final-issues">—</strong> issues across <strong>100+</strong> checks.</div>
+    <div class="complete-stats">
+      <div class="c-stat">
+        <div class="c-stat-num" id="final-score">—</div>
+        <div class="c-stat-lbl">SEO Score</div>
+      </div>
+      <div class="c-stat">
+        <div class="c-stat-num" id="final-speed">—</div>
+        <div class="c-stat-lbl">PageSpeed</div>
+      </div>
+      <div class="c-stat">
+        <div class="c-stat-num" id="final-links">—</div>
+        <div class="c-stat-lbl">Links Found</div>
+      </div>
+    </div>
+    <button class="btn-view-results" id="view-results-btn" onclick="viewResults()">
+      View Full Report
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ── PARSE URL PARAMS ──
+const params = new URLSearchParams(window.location.search);
+const auditUrl    = params.get('url')     || '';
+const auditKw     = params.get('keyword') || '';
+const auditDevice = params.get('device')  || 'desktop';
+
+// Display URL
+const urlDisplay = document.getElementById('audit-url-display');
+if (auditUrl) {
+  try { urlDisplay.textContent = new URL(auditUrl).hostname; }
+  catch { urlDisplay.textContent = auditUrl; }
+}
+
+// ── TIPS ROTATION ──
+const tips = [
+  'Fix broken links first — they directly impact crawl budget and user experience.',
+  'Missing meta descriptions reduce click-through rates by up to 6%.',
+  'Images without alt text are invisible to search engines — always add descriptive alt text.',
+  'Mobile PageSpeed score matters more than desktop for Google ranking.',
+  'Duplicate title tags confuse crawlers — every page needs a unique title.',
+  'A sitemap helps Google discover all your pages faster.',
+  'HTTPS is a confirmed ranking signal — ensure all pages are secure.',
+];
+let tipIdx = 0;
+setInterval(() => {
+  tipIdx = (tipIdx + 1) % tips.length;
+  const el = document.getElementById('tip-text');
+  el.style.opacity = '0';
+  setTimeout(() => { el.textContent = tips[tipIdx]; el.style.opacity = '1'; }, 300);
+}, 5000);
+document.getElementById('tip-text').style.transition = 'opacity 0.3s';
+
+// ── STEP CONFIG ──
+const STEPS = [
+  { statusText: 'Fetching page…',       sub: 'Resolving DNS and loading HTML',         barLabel: 'Connecting' },
+  { statusText: 'Checking On-Page SEO', sub: 'Analyzing titles, meta tags, headings',  barLabel: 'On-Page SEO' },
+  { statusText: 'Technical SEO scan',   sub: 'Robots.txt, canonicals, HTTPS checks',   barLabel: 'Technical' },
+  { statusText: 'Auditing links…',      sub: 'Crawling internal and external links',   barLabel: 'Link Audit' },
+  { statusText: 'Scanning images…',     sub: 'Checking alt tags, sizes, formats',      barLabel: 'Images' },
+  { statusText: 'PageSpeed analysis',   sub: 'Fetching Core Web Vitals from Google',   barLabel: 'PageSpeed' },
+  { statusText: 'Building report…',     sub: 'Calculating final score and sitemap',    barLabel: 'Finishing' },
+];
+
+const STEP_DURATIONS = [1200, 2500, 2200, 3000, 1800, 3500, 2000]; // ms each
+const TOTAL_DURATION = STEP_DURATIONS.reduce((a,b) => a+b, 0);
+
+// ── STATE ──
+let pct = 0;
+let currentStep = -1;
+let elapsed = 0;
+let links = 0, issues = 0, images = 0, checks = 0;
+let cancelled = false;
+let finalData = {};
+
+// ── HELPERS ──
+const $ = id => document.getElementById(id);
+const CIRCUMFERENCE = 2 * Math.PI * 90; // 565.5
+
+function setRing(p) {
+  const offset = CIRCUMFERENCE - (p / 100) * CIRCUMFERENCE;
+  $('ring-progress').style.strokeDashoffset = offset;
+}
+
+function setPct(p) {
+  $('pct-num').textContent = Math.round(p);
+  $('linear-fill').style.width = p + '%';
+  setRing(p);
+}
+
+function activateStep(idx) {
+  // Mark prev as done
+  if (currentStep >= 0) {
+    $(`step-${currentStep}`).classList.remove('active');
+    $(`step-${currentStep}`).classList.add('done');
+    $(`step-${currentStep}`).querySelector('.step-icon-wrap').innerHTML = '<span style="font-size:1rem">✅</span>';
+  }
+  currentStep = idx;
+  if (idx >= STEPS.length) return;
+
+  const el = $(`step-${idx}`);
+  el.classList.add('active');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  $('status-text').textContent = STEPS[idx].statusText;
+  $('status-sub').textContent  = STEPS[idx].sub;
+  $('bar-label').textContent   = STEPS[idx].barLabel;
+}
+
+function countUp(elId, to, duration) {
+  const el = $(elId);
+  const start = parseInt(el.textContent) || 0;
+  const diff  = to - start;
+  const t0    = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - t0) / duration, 1);
+    el.textContent = Math.round(start + diff * progress);
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// ── ELAPSED TIMER ──
+const timerStart = performance.now();
+setInterval(() => {
+  if (cancelled) return;
+  elapsed = Math.round((performance.now() - timerStart) / 1000);
+  $('elapsed-time').textContent = elapsed + 's';
+  const remaining = Math.max(0, Math.round((TOTAL_DURATION / 1000) - elapsed));
+  $('est-label').textContent = remaining > 0 ? `~${remaining}s left` : 'Almost done…';
+}, 1000);
+
+// ── REAL DATA STORE ──
+let _realData = {};
+
+// ── MAIN SEQUENCE — Real API calls + animation ──
+async function runSequence() {
+  if (!auditUrl) return;
+
+  // ── Step -1 — Create ONE shared audit session for this whole scan ──
+  window._sharedAuditId = null;
+  try {
+    const startRes = await fetch('/api/start_audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: auditUrl, device: auditDevice })
+    }).then(r => r.json());
+    window._sharedAuditId = startRes.audit_id || null;
+  } catch (e) {
+    console.warn('[SEOBit] start_audit failed, falling back to per-mode ids:', e);
+  }
+  const aid = window._sharedAuditId ? `&audit_id=${window._sharedAuditId}` : '';
+
+  // Step 0 — Connecting
+  activateStep(0);
+  await animatePct(0, 8, 1000);
+
+  // Step 1 — On-Page SEO (Quick Audit — main API)
+  activateStep(1);
+  const auditPromise = fetch(`/api/quick_audit?url=${encodeURIComponent(auditUrl)}&mode=home&device=${auditDevice}${aid}`)
+    .then(r => r.json()).catch(e => ({ error: e.message }));
+  await animatePct(8, 25, 2500);
+  const auditData = await auditPromise;
+  _realData.auditData = auditData;
+  if (!auditData.error) {
+    const seo = auditData.seo || {};
+    const lnk = auditData.links || {};
+    const img = seo.images || {};
+    const realIssues = (lnk.broken_count||0) + (img.missing_alt_count||0) + (!seo.title?.present?1:0) + (!seo.meta_description?.present?1:0);
+    countUp('mv-issues', Math.max(realIssues, 1), 600);
+    countUp('mv-checks', 18, 600);
+    $('checks-count').textContent = '18';
+  }
+
+  // Step 2 — Technical SEO
+  activateStep(2);
+  const techPromise = fetch(`/api/technical_seo?url=${encodeURIComponent(auditUrl)}${aid}`)
+    .then(r => r.json()).catch(e => ({ error: e.message }));
+  await animatePct(25, 42, 2200);
+  const techData = await techPromise;
+  _realData.techData = techData;
+  if (!techData.error) {
+    const prevIssues = parseInt($('mv-issues').textContent) || 0;
+    const techIssues = (!techData.https?1:0) + (!techData.robots_txt?1:0) + (!techData.sitemap_xml?1:0);
+    countUp('mv-issues', prevIssues + techIssues, 600);
+    countUp('mv-checks', 40, 600);
+    $('checks-count').textContent = '40';
+  }
+
+  // Step 3 — Links
+  activateStep(3);
+  const backlinkPromise = fetch(`/api/backlinks?url=${encodeURIComponent(auditUrl)}${aid}`)
+    .then(r => r.json()).catch(e => ({ error: e.message }));
+  await animatePct(42, 58, 2500);
+  const backlinkData = await backlinkPromise;
+  _realData.backlinkData = backlinkData;
+  const realLinks = (auditData.links?.internal_count||0) + (auditData.links?.external_count||0);
+  countUp('mv-links', realLinks || (backlinkData.external_links||0), 800);
+  finalData.links = realLinks || (backlinkData.external_links||0);
+
+  // Step 4 — Images
+  activateStep(4);
+  const [socialData, schemaData, mobileData] = await Promise.all([
+    fetch(`/api/social_preview?url=${encodeURIComponent(auditUrl)}${aid}`).then(r=>r.json()).catch(()=>({})),
+    fetch(`/api/structured_data?url=${encodeURIComponent(auditUrl)}${aid}`).then(r=>r.json()).catch(()=>({})),
+    fetch(`/api/mobile_seo?url=${encodeURIComponent(auditUrl)}${aid}`).then(r=>r.json()).catch(()=>({})),
+  ]);
+  _realData.socialData  = socialData;
+  _realData.schemaData  = schemaData;
+  _realData.mobileData  = mobileData;
+  await animatePct(58, 72, 1800);
+  const realImages = auditData.seo?.images?.total || 0;
+  countUp('mv-images', realImages, 600);
+
+  // Step 5 — PageSpeed (real Google API)
+  activateStep(5);
+  const speedPromise = fetch(`/api/pagespeed?url=${encodeURIComponent(auditUrl)}&device=${auditDevice}${aid}`)
+    .then(r => r.json()).catch(e => ({ error: e.message }));
+  await animatePct(72, 90, 3500);
+  const speedData = await speedPromise;
+  _realData.speedData = speedData;
+  if (!speedData.error) {
+    const sp = speedData.performance_score || 0;
+    finalData.speed = sp;
+    $('mv-speed').textContent = sp;
+    $('mb-speed').style.width = sp + '%';
+  }
+
+  // Step 6 — Build final score
+  activateStep(6);
+  await animatePct(90, 100, 1500);
+  countUp('mv-checks', 100, 800);
+  $('checks-count').textContent = '100+';
+
+  const finalScore = auditData.seo?.seo_score || 0;
+  finalData.score  = finalScore;
+  finalData.issues = parseInt($('mv-issues').textContent) || 0;
+  $('mv-score').textContent = finalScore;
+  $('mb-score').style.width = finalScore + '%';
+
+  // ── Save everything to sessionStorage for dashboard ──
+  try {
+    const cacheKey = 'seobit_cache_' + auditUrl + '_' + auditDevice;
+    sessionStorage.setItem(cacheKey, JSON.stringify({
+      ts:           Date.now(),
+      audit_id:     window._sharedAuditId || null,
+      auditData:    _realData.auditData,
+      techData:     _realData.techData,
+      speedData:    _realData.speedData,
+      backlinkData: _realData.backlinkData,
+      socialData:   _realData.socialData,
+      schemaData:   _realData.schemaData,
+      mobileData:   _realData.mobileData,
+    }));
+    console.log('[SEOBit] All data cached for dashboard');
+  } catch(e) {
+    console.warn('[SEOBit] Cache save failed:', e);
+  }
+
+  if (!cancelled) finishAudit();
+}
+
+function animatePct(from, to, duration) {
+  return new Promise(resolve => {
+    const t0 = performance.now();
+    function tick(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      const ease = p < 0.5 ? 2*p*p : -1+(4-2*p)*p; // easeInOut
+      setPct(from + (to - from) * ease);
+      if (p < 1) requestAnimationFrame(tick);
+      else resolve();
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function finishAudit() {
+  setPct(100);
+  $('ring-progress').classList.add('complete');
+  $('pct-num').classList.add('complete');
+  $('linear-fill').classList.add('complete');
+
+  // Mark last step done
+  if (currentStep >= 0) {
+    $(`step-${currentStep}`).classList.remove('active');
+    $(`step-${currentStep}`).classList.add('done');
+    $(`step-${currentStep}`).querySelector('.step-icon-wrap').innerHTML = '<span style="font-size:1rem">✅</span>';
+  }
+
+  $('status-text').textContent = 'Audit complete!';
+  $('status-sub').textContent  = 'Your report is ready to view';
+  $('bar-label').textContent   = 'Done';
+
+  // Populate complete overlay with REAL data
+  $('final-score').textContent  = finalData.score  != null ? finalData.score  : '—';
+  $('final-speed').textContent  = finalData.speed  != null ? finalData.speed  : '—';
+  $('final-links').textContent  = finalData.links  != null ? finalData.links  : '—';
+  $('final-issues').textContent = finalData.issues != null ? finalData.issues : '—';
+
+  setTimeout(() => {
+    $('complete-overlay').classList.add('show');
+  }, 800);
+}
+
+function viewResults() {
+  // ── Ensure cache is saved before redirecting ──
+  const cacheKey = 'seobit_cache_' + auditUrl + '_' + auditDevice;
+  try {
+    const existing = sessionStorage.getItem(cacheKey);
+    if (!existing) {
+      // Cache missing — save it now before redirect
+      console.warn('[SEOBit] Cache missing at redirect time, saving now...');
+      sessionStorage.setItem(cacheKey, JSON.stringify({
+        ts:           Date.now(),
+        audit_id:     window._sharedAuditId || null,
+        auditData:    _realData.auditData    || null,
+        techData:     _realData.techData     || null,
+        speedData:    _realData.speedData    || null,
+        backlinkData: _realData.backlinkData || null,
+        socialData:   _realData.socialData   || null,
+        schemaData:   _realData.schemaData   || null,
+        mobileData:   _realData.mobileData   || null,
+      }));
+      console.log('[SEOBit] Cache saved at redirect time');
+    } else {
+      // Cache exists — refresh timestamp so dashboard doesn't expire it
+      const parsed = JSON.parse(existing);
+      parsed.ts = Date.now();
+      if (!parsed.audit_id) parsed.audit_id = window._sharedAuditId || null;
+      sessionStorage.setItem(cacheKey, JSON.stringify(parsed));
+      console.log('[SEOBit] Cache timestamp refreshed before redirect');
+    }
+  } catch(e) {
+    console.warn('[SEOBit] Cache save at redirect failed:', e);
+  }
+
+  const p = new URLSearchParams({ url: auditUrl, keyword: auditKw, device: auditDevice });
+  if (window._sharedAuditId) p.set('audit_id', window._sharedAuditId);
+  window.location.href = '/dashboard?' + p.toString();
+}
+
+function cancelAudit() {
+  cancelled = true;
+  window.location.href = '/';
+}
+
+// ── KICK OFF ──
+runSequence();
+</script>
+</body>
+</html>

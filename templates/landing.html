@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SEOBit — Professional SEO Audit Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --white: #ffffff;
+  --off-white: #f8f7f4;
+  --light: #f1f0ec;
+  --border: #e8e6e0;
+  --border-dark: #d4d1c8;
+  --text: #1a1916;
+  --text-2: #3d3b35;
+  --text-3: #7a7870;
+  --orange: #f06400;
+  --orange-light: #fff3eb;
+  --orange-mid: #fde8d4;
+  --orange-dark: #c44e00;
+  --green: #16a34a;
+  --green-bg: #f0fdf4;
+  --blue: #1d6bd8;
+  --blue-bg: #eff6ff;
+  --purple: #7c3aed;
+  --purple-bg: #f5f3ff;
+  --teal: #0d9488;
+  --teal-bg: #f0fdfa;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+  --radius: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--orange);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-mark svg { width: 20px; height: 20px; fill: white; }
+
+.logo-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.logo-text span { color: var(--orange); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-3);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-ghost {
+  background: none;
+  border: 1.5px solid var(--border-dark);
+  color: var(--text-2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover { border-color: var(--text-3); color: var(--text); }
+
+.btn-orange {
+  background: var(--orange);
+  border: none;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.btn-orange:hover { background: var(--orange-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(240,100,0,0.3); }
+.btn-orange:active { transform: translateY(0); }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--off-white);
+  padding: 80px 40px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,100,0,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 40px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,100,0,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--orange-light);
+  border: 1px solid rgba(240,100,0,0.2);
+  color: var(--orange-dark);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 3.4rem;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--orange);
+  position: relative;
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--text-3);
+  line-height: 1.65;
+  margin-bottom: 36px;
+  max-width: 440px;
+}
+
+/* Input card */
+.audit-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.audit-card-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.audit-card-title span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+.input-group {
+  margin-bottom: 14px;
+}
+
+.input-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-2);
+  margin-bottom: 7px;
+  display: block;
+  letter-spacing: 0.02em;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+}
+
+.audit-input {
+  width: 100%;
+  background: var(--off-white);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  padding: 11px 14px 11px 42px;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.audit-input:focus {
+  border-color: var(--orange);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(240,100,0,0.1);
+}
+
+.audit-input::placeholder { color: var(--text-3); }
+
+.audit-select {
+  width: 100%;
+  background: var(--off-white);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  padding: 11px 14px;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237a7870' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.audit-select:focus { border-color: var(--orange); background-color: var(--white); box-shadow: 0 0 0 3px rgba(240,100,0,0.1); }
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.btn-audit {
+  width: 100%;
+  background: var(--orange);
+  border: none;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  letter-spacing: -0.2px;
+  margin-top: 6px;
+}
+
+.btn-audit:hover {
+  background: var(--orange-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(240,100,0,0.35);
+}
+
+.btn-audit:active { transform: translateY(0); }
+
+.audit-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  justify-content: center;
+}
+
+.audit-footer svg { color: var(--green); flex-shrink: 0; }
+
+/* Hero trust row */
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.trust-item svg { color: var(--green); }
+
+/* Hero visual — mock dashboard preview */
+.hero-visual {
+  position: relative;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mock-browser {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  transform: perspective(1000px) rotateY(-3deg) rotateX(2deg);
+  transition: transform 0.4s ease;
+  margin-bottom: 25px;
+}
+
+.mock-browser:hover { transform: perspective(1000px) rotateY(-1deg) rotateX(1deg); }
+
+.mock-browser-bar {
+  background: var(--light);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.mock-dots { display: flex; gap: 5px; }
+.mock-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.d1 { background: #fc615d; }
+.d2 { background: #fdbc40; }
+.d3 { background: #34c749; }
+
+.mock-url {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  color: var(--text-3);
+  flex: 1;
+}
+
+.mock-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+.score-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.score-tile {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.score-tile .score-num {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.score-tile .score-lbl {
+  font-size: 0.58rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.s-good { color: var(--green); }
+.s-warn { color: var(--amber); }
+.s-bad { color: var(--red); }
+.s-blue { color: var(--blue); }
+
+.mock-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.mock-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mock-bar-label {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.mock-bar-bg {
+  flex: 1;
+  height: 7px;
+  background: var(--light);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.mock-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 1s ease;
+}
+
+.mock-bar-pct {
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 32px;
+  text-align: right;
+  font-family: 'Poppins', sans-serif;
+}
+
+.mini-issue-list { display: flex; flex-direction: column; gap: 5px; }
+
+.mini-issue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  background: var(--off-white);
+  border-radius: 7px;
+  font-size: 0.68rem;
+  color: var(--text-2);
+}
+
+.mini-issue-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.b-err { background: rgba(220,38,38,0.1); color: var(--red); }
+.b-warn { background: rgba(217,119,6,0.1); color: var(--amber); }
+.b-ok { background: rgba(22,163,74,0.1); color: var(--green); }
+
+/* ─── STATS STRIP ─── */
+.stats-strip {
+  background: var(--text);
+  padding: 28px 40px;
+}
+
+.stats-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 8px 20px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--orange);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-desc {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
+  font-weight: 400;
+}
+
+/* ─── FEATURES ─── */
+.features {
+  padding: 100px 40px;
+  background: var(--white);
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 2.4rem;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 14px;
+  max-width: 520px;
+  line-height: 1.15;
+}
+
+.section-sub {
+  font-size: 1rem;
+  color: var(--text-3);
+  max-width: 480px;
+  line-height: 1.65;
+  margin-bottom: 56px;
+}
+
+.features-inner { max-width: 1160px; margin: 0 auto; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feat-card {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.feat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--feat-color, var(--orange));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.feat-card:hover {
+  border-color: var(--border-dark);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.feat-card:hover::before { transform: scaleX(1); }
+
+.feat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--feat-bg, var(--orange-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+}
+
+.feat-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.feat-desc {
+  font-size: 0.86rem;
+  color: var(--text-3);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.feat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.feat-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--text-3);
+  padding: 3px 9px;
+  border-radius: 5px;
+}
+
+/* ─── HOW IT WORKS ─── */
+.how {
+  padding: 100px 40px;
+  background: var(--off-white);
+  position: relative;
+  overflow: hidden;
+}
+
+.how::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,100,0,0.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.how-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
+
+.steps-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  position: relative;
+  margin-top: 56px;
+}
+
+.steps-track::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(12.5% + 14px);
+  right: calc(12.5% + 14px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--orange) 0%, rgba(240,100,0,0.2) 100%);
+  z-index: 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.step-num {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--text-3);
+  margin-bottom: 20px;
+  transition: all 0.3s;
+  box-shadow: var(--shadow-sm);
+}
+
+.step.active .step-num {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: white;
+  box-shadow: 0 0 0 6px rgba(240,100,0,0.12);
+}
+
+.step-icon {
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+}
+
+.step-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.step-desc {
+  font-size: 0.82rem;
+  color: var(--text-3);
+  line-height: 1.6;
+  max-width: 200px;
+}
+
+/* ─── DEMO STATS ─── */
+.demo-stats {
+  padding: 100px 40px;
+  background: var(--white);
+}
+
+.demo-inner { max-width: 1160px; margin: 0 auto; }
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.demo-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.demo-card {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  transition: all 0.25s;
+}
+
+.demo-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+.demo-card-icon {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+}
+
+.demo-card-num {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.demo-card-lbl {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.demo-card-change {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--green);
+  margin-top: 8px;
+}
+
+.demo-card.accent-card {
+  background: var(--orange);
+  border-color: var(--orange);
+}
+
+.demo-card.accent-card .demo-card-num,
+.demo-card.accent-card .demo-card-lbl { color: white; }
+
+.demo-card.accent-card .demo-card-change { color: rgba(255,255,255,0.7); }
+
+.demo-text-side { padding-left: 20px; }
+
+.demo-checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.demo-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.check-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--orange-light);
+  border: 1.5px solid rgba(240,100,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.check-icon svg { color: var(--orange); }
+
+/* ─── CTA BANNER ─── */
+.cta-banner {
+  background: var(--text);
+  padding: 80px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,100,0,0.15) 0%, transparent 65%);
+}
+
+.cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-inner h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.cta-inner p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.65;
+  margin-bottom: 36px;
+}
+
+.cta-form {
+  display: flex;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.cta-input {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  padding: 12px 16px;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.cta-input::placeholder { color: rgba(255,255,255,0.35); }
+.cta-input:focus { border-color: var(--orange); background: rgba(255,255,255,0.1); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--off-white);
+  border-top: 1px solid var(--border);
+  padding: 48px 40px;
+}
+
+.footer-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-copy {
+  font-size: 0.82rem;
+  color: var(--text-3);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a {
+  font-size: 0.82rem;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--text); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-left > * {
+  animation: fade-up 0.7s ease forwards;
+  opacity: 0;
+}
+
+.hero-left > *:nth-child(1) { animation-delay: 0.05s; }
+.hero-left > *:nth-child(2) { animation-delay: 0.15s; }
+.hero-left > *:nth-child(3) { animation-delay: 0.25s; }
+.hero-left > *:nth-child(4) { animation-delay: 0.35s; }
+.hero-left > *:nth-child(5) { animation-delay: 0.45s; }
+
+.hero-visual {
+  animation: fade-up 0.9s 0.3s ease forwards;
+  opacity: 0;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .mock-browser { transform: none; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-track { grid-template-columns: repeat(2, 1fr); }
+  .steps-track::before { display: none; }
+  .demo-grid { grid-template-columns: 1fr; }
+  .demo-text-side { padding-left: 0; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 48px 20px 0; }
+  .hero h1 { font-size: 2.4rem; }
+  .features, .how, .demo-stats { padding: 64px 20px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .steps-track { grid-template-columns: 1fr; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .demo-cards { grid-template-columns: 1fr 1fr; }
+  .cta-banner { padding: 64px 20px; }
+  .cta-form { flex-direction: column; }
+  footer { padding: 32px 20px; }
+  .input-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="logo-text">SEO<span>Bit</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#stats">Results</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn-ghost">Sign in</button>
+    <a href="#hero-form" class="btn-orange">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Free Audit
+    </a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="hero-form">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        AI-Powered SEO Intelligence
+      </div>
+      <h1>Audit. Analyze.<br><em>Dominate</em> Search.</h1>
+      <p class="hero-sub">SEOBit gives you enterprise-grade SEO analysis in seconds. Uncover technical issues, content gaps, and ranking opportunities before your competitors do.</p>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          No signup needed
+        </div>
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Results in ~30s
+        </div>
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          100+ checks
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <!-- Floating audit input card -->
+      <div class="audit-card" id="audit-card">
+        <div class="audit-card-title"><span></span> Start Your Free SEO Audit</div>
+        <div class="input-group">
+          <label class="input-label">Website URL</label>
+          <div class="input-wrap">
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <input id="landing-url" type="text" class="audit-input" placeholder="https://yourdomain.com"/>
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group" style="margin-bottom:0">
+            <label class="input-label">Target Keyword <span style="color:var(--text-3);font-weight:400">(optional)</span></label>
+            <div class="input-wrap">
+              <div class="input-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
+              </div>
+              <input id="landing-keyword" type="text" class="audit-input" placeholder="e.g. seo audit tool"/>
+            </div>
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label class="input-label">Device</label>
+            <select id="landing-device" class="audit-select">
+              <option value="desktop">🖥 Desktop</option>
+              <option value="mobile">📱 Mobile</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-audit" onclick="launchAudit()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Run SEO Audit
+        </button>
+        <div class="audit-footer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Free · No credit card · Instant results
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini dashboard preview below hero inputs -->
+  <div style="max-width:1160px;margin:48px auto 0;padding-bottom:0;">
+    <div class="mock-browser">
+      <div class="mock-browser-bar">
+        <div class="mock-dots">
+          <div class="mock-dot d1"></div>
+          <div class="mock-dot d2"></div>
+          <div class="mock-dot d3"></div>
+        </div>
+        <div class="mock-url">seobit.app — audit results for example.com</div>
+      </div>
+      <div class="mock-body">
+        <div class="score-row">
+          <div class="score-tile"><div class="score-num s-good">87</div><div class="score-lbl">SEO Score</div></div>
+          <div class="score-tile"><div class="score-num s-warn">74</div><div class="score-lbl">PageSpeed</div></div>
+          <div class="score-tile"><div class="score-num s-bad">3</div><div class="score-lbl">Broken Links</div></div>
+          <div class="score-tile"><div class="score-num s-blue">142</div><div class="score-lbl">Pages Crawled</div></div>
+        </div>
+        <div class="mock-bar-row">
+          <div class="mock-bar-item">
+            <span class="mock-bar-label">Content</span>
+            <div class="mock-bar-bg"><div class="mock-bar-fill" style="width:88%;background:var(--green)"></div></div>
+            <span class="mock-bar-pct s-good">88</span>
+          </div>
+          <div class="mock-bar-item">
+            <span class="mock-bar-label">Technical</span>
+            <div class="mock-bar-bg"><div class="mock-bar-fill" style="width:72%;background:var(--amber)"></div></div>
+            <span class="mock-bar-pct s-warn">72</span>
+          </div>
+          <div class="mock-bar-item">
+            <span class="mock-bar-label">Links</span>
+            <div class="mock-bar-bg"><div class="mock-bar-fill" style="width:91%;background:var(--green)"></div></div>
+            <span class="mock-bar-pct s-good">91</span>
+          </div>
+          <div class="mock-bar-item">
+            <span class="mock-bar-label">Speed</span>
+            <div class="mock-bar-bg"><div class="mock-bar-fill" style="width:65%;background:var(--orange)"></div></div>
+            <span class="mock-bar-pct" style="color:var(--orange)">65</span>
+          </div>
+        </div>
+        <div class="mini-issue-list">
+          <div class="mini-issue">Missing meta descriptions on 4 pages <span class="mini-issue-badge b-warn">Warning</span></div>
+          <div class="mini-issue">3 images without alt text found <span class="mini-issue-badge b-warn">Warning</span></div>
+          <div class="mini-issue">Sitemap.xml is valid and accessible <span class="mini-issue-badge b-ok">Passed</span></div>
+          <div class="mini-issue">2 broken links detected (404) <span class="mini-issue-badge b-err">Error</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS STRIP ─── -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">2.4M+</div>
+      <div class="stat-desc">Audits completed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100+</div>
+      <div class="stat-desc">SEO checks performed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">30s</div>
+      <div class="stat-desc">Average audit time</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98%</div>
+      <div class="stat-desc">Issue detection accuracy</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FEATURES ─── -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <span class="section-label">Everything you need</span>
+    <h2 class="section-title">Complete SEO coverage in one place</h2>
+    <p class="section-sub">From on-page signals to Core Web Vitals, SEOBit runs comprehensive checks across every dimension of SEO health.</p>
+    <div class="features-grid">
+      <div class="feat-card" style="--feat-color:#f06400;--feat-bg:#fff3eb">
+        <div class="feat-icon">📄</div>
+        <div class="feat-title">On-Page SEO</div>
+        <div class="feat-desc">Analyzes titles, meta descriptions, headings, keyword usage, content quality, and schema markup across every page.</div>
+        <div class="feat-tags">
+          <span class="feat-tag">Meta Tags</span>
+          <span class="feat-tag">H1–H6</span>
+          <span class="feat-tag">Schema</span>
+          <span class="feat-tag">Keywords</span>
+        </div>
+      </div>
+      <div class="feat-card" style="--feat-color:#1d6bd8;--feat-bg:#eff6ff">
+        <div class="feat-icon">⚙️</div>
+        <div class="feat-title">Technical SEO</div>
+        <div class="feat-desc">Deep-dives into robots.txt, canonical tags, HTTPS, redirects, structured data, and server response codes.</div>
+        <div class="feat-tags">
+          <span class="feat-tag">Robots.txt</span>
+          <span class="feat-tag">Canonicals</span>
+          <span class="feat-tag">HTTPS</span>
+          <span class="feat-tag">Redirects</span>
+        </div>
+      </div>
+      <div class="feat-card" style="--feat-color:#dc2626;--feat-bg:#fef2f2">
+        <div class="feat-icon">🔗</div>
+        <div class="feat-title">Broken Links</div>
+        <div class="feat-desc">Crawls your entire site to detect 404s, redirect chains, orphan pages, and external links returning errors.</div>
+        <div class="feat-tags">
+          <span class="feat-tag">404 Finder</span>
+          <span class="feat-tag">Orphans</span>
+          <span class="feat-tag">Chains</span>
+        </div>
+      </div>
+      <div class="feat-card" style="--feat-color:#16a34a;--feat-bg:#f0fdf4">
+        <div class="feat-icon">🖼️</div>
+        <div class="feat-title">Image Audit</div>
+        <div class="feat-desc">Flags missing alt attributes, oversized images, unoptimized formats, and slow-loading media hurting your CWV.</div>
+        <div class="feat-tags">
+          <span class="feat-tag">Alt Text</span>
+          <span class="feat-tag">File Size</span>
+          <span class="feat-tag">WebP</span>
+        </div>
+      </div>
+      <div class="feat-card" style="--feat-color:#d97706;--feat-bg:#fffbeb">
+        <div class="feat-icon">⚡</div>
+        <div class="feat-title">PageSpeed Insights</div>
+        <div class="feat-desc">Pulls real Google PageSpeed data for both desktop and mobile — LCP, FID, CLS, TTFB, and actionable fixes.</div>
+        <div class="feat-tags">
+          <span class="feat-tag">Core Web Vitals</span>
+          <span class="feat-tag">LCP</span>
+          <span class="feat-tag">CLS</span>
+        </div>
+      </div>
+      <div class="feat-card" style="--feat-color:#7c3aed;--feat-bg:#f5f3ff">
+        <div class="feat-icon">🗺️</div>
+        <div class="feat-title">Sitemap & Reports</div>
+        <div class="feat-desc">Validates your XML sitemap, checks for missing pages, and exports full PDF/CSV reports for clients or your team.</div>
+        <div class="feat-tags">
+          <span class="feat-tag">XML Sitemap</span>
+          <span class="feat-tag">PDF Export</span>
+          <span class="feat-tag">CSV</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="how" id="how">
+  <div class="how-inner">
+    <span class="section-label">Simple process</span>
+    <h2 class="section-title">Four steps to better rankings</h2>
+    <p class="section-sub">SEOBit handles the complexity so you can focus on fixing issues and growing traffic.</p>
+    <div class="steps-track">
+      <div class="step active">
+        <div class="step-num">1</div>
+        <div class="step-icon">🌐</div>
+        <div class="step-title">Enter Your URL</div>
+        <div class="step-desc">Paste any URL — homepage, landing page, or blog post. Works on any site.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-icon">🔍</div>
+        <div class="step-title">Deep Crawl Runs</div>
+        <div class="step-desc">Our engine crawls your site, fetching data from Google APIs and 100+ internal checks simultaneously.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-icon">📊</div>
+        <div class="step-title">Instant Analysis</div>
+        <div class="step-desc">Results are scored, categorized, and ranked by impact — so you know exactly what to fix first.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-icon">🚀</div>
+        <div class="step-title">Fix & Grow</div>
+        <div class="step-desc">Follow actionable recommendations, track improvements, and watch your rankings climb.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DEMO STATS ─── -->
+<section class="demo-stats" id="stats">
+  <div class="demo-inner">
+    <div class="demo-grid">
+      <div class="demo-cards">
+        <div class="demo-card accent-card">
+          <div class="demo-card-icon">🎯</div>
+          <div class="demo-card-num">94</div>
+          <div class="demo-card-lbl">Avg. Score Improvement</div>
+          <div class="demo-card-change">↑ after first audit fixes</div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-icon">⚡</div>
+          <div class="demo-card-num">1.8s</div>
+          <div class="demo-card-lbl">Avg. Load Time Gained</div>
+          <div class="demo-card-change">↑ faster after optimization</div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-icon">🔗</div>
+          <div class="demo-card-num">23</div>
+          <div class="demo-card-lbl">Broken Links Found</div>
+          <div class="demo-card-change">avg per site audited</div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-icon">📈</div>
+          <div class="demo-card-num">+41%</div>
+          <div class="demo-card-lbl">Organic Traffic Uplift</div>
+          <div class="demo-card-change">after 3-month fixes</div>
+        </div>
+      </div>
+      <div class="demo-text-side">
+        <span class="section-label">Why SEOBit</span>
+        <h2 class="section-title">Built for results, not just reports</h2>
+        <p class="section-sub" style="margin-bottom:0">Unlike generic tools, SEOBit prioritizes findings by revenue impact and gives you clear, step-by-step fix instructions — not just raw data dumps.</p>
+        <ul class="demo-checklist">
+          <li class="demo-check">
+            <div class="check-icon">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Issues ranked by SEO impact — fix what matters most first
+          </li>
+          <li class="demo-check">
+            <div class="check-icon">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Real Google PageSpeed data, not simulated scores
+          </li>
+          <li class="demo-check">
+            <div class="check-icon">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Full crawl exports as PDF, CSV, or shareable link
+          </li>
+          <li class="demo-check">
+            <div class="check-icon">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Desktop and mobile analysis in a single run
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA BANNER ─── -->
+<section class="cta-banner">
+  <div class="cta-inner">
+    <h2>Ready to rank higher?</h2>
+    <p>Join thousands of marketers and developers using SEOBit to find and fix SEO issues before they hurt rankings.</p>
+    <div class="cta-form">
+      <input type="text" class="cta-input" placeholder="https://yourwebsite.com" id="cta-url"/>
+      <button class="btn-orange" style="padding:12px 22px;font-size:0.95rem;" onclick="launchAuditFromCta()">
+        Audit Now
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="nav-logo" style="text-decoration:none">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="logo-text">SEO<span>Bit</span></span>
+    </a>
+    <div class="footer-copy">© 2026 SEOBit. Professional SEO Audit Platform.</div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function launchAudit() {
+  const url = document.getElementById('landing-url').value.trim();
+  const keyword = document.getElementById('landing-keyword').value.trim();
+  const device = document.getElementById('landing-device').value;
+
+  if (!url) {
+    document.getElementById('landing-url').focus();
+    document.getElementById('landing-url').style.borderColor = 'var(--red)';
+    setTimeout(() => document.getElementById('landing-url').style.borderColor = '', 1500);
+    return;
+  }
+
+  // Build query and go to loading screen
+  const params = new URLSearchParams({ url, keyword, device });
+  window.location.href = '/loading?' + params.toString();
+}
+
+function launchAuditFromCta() {
+  const url = document.getElementById('cta-url').value.trim();
+  if (!url) {
+    document.getElementById('cta-url').focus();
+    return;
+  }
+  const params = new URLSearchParams({ url, device: 'desktop' });
+  window.location.href = '/loading?' + params.toString();
+}
+
+// Allow Enter key on inputs
+document.querySelectorAll('.audit-input').forEach(el => {
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') launchAudit(); });
+});
+document.getElementById('cta-url').addEventListener('keydown', e => {
+  if (e.key === 'Enter') launchAuditFromCta();
+});
+
+// Animate bars on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.mock-bar-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        requestAnimationFrame(() => { bar.style.width = w; });
+      });
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+const mockBrowser = document.querySelector('.mock-browser');
+if (mockBrowser) observer.observe(mockBrowser);
+</script>
+</body>
+</html>
