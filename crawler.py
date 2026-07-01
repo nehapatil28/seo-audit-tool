@@ -112,21 +112,30 @@ class WebCrawler:
                 except: pass
             return self._fetch_requests(url)
 
-    def _fetch_requests(self, url):
-        try:
-            resp = requests.get(url, headers=self.headers, timeout=10, allow_redirects=True)
-            final_url = resp.url
-            redirect = final_url.rstrip("/") != url.rstrip("/")
-            return {
-                "url": url,
-                "status": resp.status_code,
-                "redirect": redirect,
-                "redirect_to": final_url if redirect else None,
-                "content": resp.text if resp.status_code == 200 else "",
-                "content_type": resp.headers.get("Content-Type", ""),
-            }
-        except requests.exceptions.RequestException as e:
-            return {"url": url, "status": "error", "error": str(e), "content": ""}
+    def _fetch_requests(self, url, max_retries=3):
+        import time
+        last_error = None
+        for attempt in range(max_retries):
+            try:
+                resp = requests.get(url, headers=self.headers, timeout=10, allow_redirects=True)
+                final_url = resp.url
+                redirect = final_url.rstrip("/") != url.rstrip("/")
+                return {
+                    "url": url,
+                    "status": resp.status_code,
+                    "redirect": redirect,
+                    "redirect_to": final_url if redirect else None,
+                    "content": resp.text if resp.status_code == 200 else "",
+                    "content_type": resp.headers.get("Content-Type", ""),
+                }
+            except requests.exceptions.RequestException as e:
+                last_error = e
+                # Transient DNS/connection glitches (common on free hosting tiers)
+                # get a short backoff before retrying instead of failing immediately.
+                if attempt < max_retries - 1:
+                    time.sleep(1.5 * (attempt + 1))
+                    continue
+        return {"url": url, "status": "error", "error": str(last_error), "content": ""}
 
     def parse_links(self, html, current_url):
         soup = BeautifulSoup(html, "lxml")
