@@ -706,7 +706,7 @@ body {
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
       </svg>
     </div>
-    <span class="logo-text">SEO<span>Bit</span></span>
+    <span class="logo-text">SEO<span>Tool</span></span>
   </a>
 
   <div class="audit-target">
@@ -810,7 +810,7 @@ body {
 
       <div class="progress-status">
         <div class="status-text" id="status-text">Initializing audit…</div>
-        <div class="status-sub" id="status-sub">Connecting to SEOBit engine</div>
+        <div class="status-sub" id="status-sub">Connecting to SEOTool engine</div>
       </div>
 
       <div class="linear-bar-wrap">
@@ -1057,7 +1057,7 @@ async function runSequence() {
     }).then(r => r.json());
     window._sharedAuditId = startRes.audit_id || null;
   } catch (e) {
-    console.warn('[SEOBit] start_audit failed, falling back to per-mode ids:', e);
+    console.warn('[SEOTool] start_audit failed, falling back to per-mode ids:', e);
   }
   const aid = window._sharedAuditId ? `&audit_id=${window._sharedAuditId}` : '';
 
