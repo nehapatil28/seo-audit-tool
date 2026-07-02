@@ -259,6 +259,7 @@ def mobile_seo_route():
 def quick_audit_route():
     try:
         import requests as req
+        import time
         from bs4 import BeautifulSoup
         from urllib.parse import urljoin, urlparse
         from onpage import analyze_onpage
@@ -281,24 +282,28 @@ def quick_audit_route():
             )
         }
 
-        # Fetch page — Playwright first, fallback requests
+        # Fetch page — plain requests (Playwright's headless browser isn't
+        # reliably available on free hosting tiers like Render, so we skip
+        # straight to a well-disguised HTTP request instead).
         html_content = ""
-        try:
-            from playwright.sync_api import sync_playwright
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
-                ctx     = browser.new_context(user_agent=headers["User-Agent"], ignore_https_errors=True)
-                pg      = ctx.new_page()
-                pg.goto(url, timeout=20000, wait_until="domcontentloaded")
-                pg.wait_for_timeout(1500)
-                html_content = pg.content()
-                browser.close()
-        except Exception:
+        fetch_headers = {
+            **headers,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Connection": "keep-alive",
+        }
+        last_err = None
+        for attempt in range(3):
             try:
-                r = req.get(url, headers=headers, timeout=10)
+                r = req.get(url, headers=fetch_headers, timeout=15, allow_redirects=True)
                 html_content = r.text
+                break
             except Exception as e:
-                return jsonify({"error": str(e)}), 500
+                last_err = e
+                if attempt < 2:
+                    time.sleep(1.5 * (attempt + 1))
+        if not html_content:
+            return jsonify({"error": str(last_err) if last_err else "Failed to fetch page"}), 500
 
         soup = BeautifulSoup(html_content, "lxml")
 
