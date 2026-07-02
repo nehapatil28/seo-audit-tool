@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SEOBit — Running Audit…</title>
+<title>SEOTool — Running Audit…</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
@@ -1057,7 +1057,7 @@ async function runSequence() {
     }).then(r => r.json());
     window._sharedAuditId = startRes.audit_id || null;
   } catch (e) {
-    console.warn('[SEOTool] start_audit failed, falling back to per-mode ids:', e);
+    console.warn('[SEOBit] start_audit failed, falling back to per-mode ids:', e);
   }
   const aid = window._sharedAuditId ? `&audit_id=${window._sharedAuditId}` : '';
 
